@@ -108,3 +108,18 @@ execute 'configure_oracle' do
   creates '/home/oracle/.oracle_configured'
 end
 
+
+bash 'installing sqldeveloper' do
+  sql_dev_fname = node[:oracle_xe][:sql_developer_filename]
+  code %Q{
+    sudo unzip #{node[:oracle_xe][:oracle_install_source]}/#{sql_dev_fname} -d /opt/
+    }
+  not_if 'which sqldeveloper'
+end
+
+execute 'change mode and symlink to sqldeveloper' do
+  sd = 'sqldevelper'
+  bin_path = "/opt/#{sd}/#{sd}/bin/#{sd}"
+  command "chmod 755 #{bin_path}"
+  command "ln -sf #{bin_path} /usr/local/bin/#{sd}"
+end
