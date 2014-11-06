@@ -9,7 +9,7 @@ execute 'copy oracle installation file' do
   creates "/tmp/#{oracle_filename}"
 end
 
-%w{alien bc libaio1 expect unixodbc chkconfig pmount}.each do | pkg |
+%w{alien bc libaio1 expect unixodbc pmount}.each do | pkg |
   package pkg do
     action :install
   end
